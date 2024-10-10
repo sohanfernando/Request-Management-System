@@ -9,9 +9,9 @@ import FeedbacksIcon from '../static/icons/feedbacks.png';
 import ReportsIcon from '../static/icons/reports.png';
 import PatientIcon from '../static/icons/patient.png';
 import SettingsIcon from '../static/icons/settings.png';
-import MoonIcon from '../static/icons/moon.png'; // Moon icon
-import NotificationIcon from '../static/icons/notification.png'; // Notification bell
-import AvatarImage from '../static/images/avatar.png'; // Avatar image
+import MoonIcon from '../static/icons/moon.png';
+import NotificationIcon from '../static/icons/notification.png';
+import AvatarImage from '../static/images/avatar.png';
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,12 +28,11 @@ const Navbar: React.FC = () => {
   return (
     <AppBar position="static" style={{ backgroundColor: '#830823', height: '64px' }}>
       <Toolbar style={{ padding: '0 16px', minHeight: '64px' }}>
-        {/* Brand Name */}
+        
         <Typography variant="h6" style={{ fontWeight: 'bold', flexGrow: 1 }}>
           e-hospital
         </Typography>
 
-        {/* Centered Menu Items */}
         <Grid container justifyContent="center" alignItems="center" style={{ flexGrow: 2 }}>
           <Button color="inherit" style={{ margin: '0 10px', padding: '6px 12px', display: 'flex', alignItems: 'center' }}>
             <img src={DashboardIcon} alt="Dashboard" style={{ marginRight: '6px', width: '20px', height: '20px' }} />
@@ -68,7 +67,6 @@ const Navbar: React.FC = () => {
             Patient
           </Button>
 
-          {/* Settings with Dropdown Icon */}
           <Button
             aria-controls="settings-menu"
             aria-haspopup="true"
@@ -93,29 +91,25 @@ const Navbar: React.FC = () => {
           </Menu>
         </Grid>
 
-        {/* Right Section with Moon Icon, Notification, Welcome Text, and Avatar */}
         <Grid container alignItems="center" justifyContent="flex-end" style={{ width: 'auto', flexWrap: 'nowrap' }}>
-          {/* Moon Icon */}
+          
           <IconButton color="inherit" style={{ marginRight: '15px' }}>
             <img src={MoonIcon} alt="Dark Mode" style={{ width: '24px', height: '24px' }} />
           </IconButton>
 
-          {/* Notification Bell with Red Dot */}
           <IconButton color="inherit" style={{ marginRight: '15px' }}>
-            <Badge badgeContent={1} color="error"> {/* Red dot for notifications */}
+            <Badge badgeContent={1} color="error">
               <img src={NotificationIcon} alt="Notifications" style={{ width: '24px', height: '24px' }} />
             </Badge>
           </IconButton>
 
-          {/* Vertical Divider */}
           <div style={{ height: '30px', width: '1px', backgroundColor: '#FFFFFF', marginRight: '15px' }} />
 
-          {/* Welcome Text and Avatar */}
           <Typography variant="body1" style={{ marginRight: '10px', color: '#FFFFFF', whiteSpace: 'nowrap' }}>
             Welcome <span style={{ fontWeight: 'bold' }}>Admin</span>
           </Typography>
           <IconButton color="inherit">
-            <Avatar alt="Admin" src={AvatarImage} style={{ width: '40px', height: '40px' }} /> {/* Adjusted avatar size */}
+            <Avatar alt="Admin" src={AvatarImage} style={{ width: '40px', height: '40px' }} />
           </IconButton>
         </Grid>
       </Toolbar>

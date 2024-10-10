@@ -5,14 +5,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Dayjs } from 'dayjs';
-import { TextFieldProps } from '@mui/material/TextField'; // Import TextFieldProps
+import { TextFieldProps } from '@mui/material/TextField';
 
 const statusOptions = ['New', 'In Progress', 'Completed', 'On Hold', 'Escalated', 'Delayed'];
 const departmentOptions = ['Patient Experience'];
 
 const FilterBar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([null, null]); // Date range
+  const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([null, null]);
   const [status, setStatus] = useState<string>('');
   const [department, setDepartment] = useState<string>('');
 
@@ -48,7 +48,6 @@ const FilterBar: React.FC = () => {
         />
       </Grid>
 
-      {/* Date Range Picker */}
       <Grid item xs={4}>
         <DateRangePicker
           startText="Start Date"
@@ -64,7 +63,6 @@ const FilterBar: React.FC = () => {
         />
       </Grid>
 
-      {/* Status Dropdown */}
       <Grid item xs={2}>
         <TextField
           select
@@ -82,7 +80,6 @@ const FilterBar: React.FC = () => {
         </TextField>
       </Grid>
 
-      {/* Department Dropdown */}
       <Grid item xs={2}>
         <TextField
           select
@@ -100,7 +97,6 @@ const FilterBar: React.FC = () => {
         </TextField>
       </Grid>
 
-      {/* Filter and Download Icons */}
       <Grid item xs={1} style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <IconButton>
           <FilterListIcon />

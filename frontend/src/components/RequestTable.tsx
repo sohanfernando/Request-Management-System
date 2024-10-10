@@ -1,22 +1,20 @@
-// src/components/RequestTable.tsx
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material';
 
-const requestData = [
-  {
-    id: 1,
-    requestId: 'SKMCAA0026',
-    createdOn: '14/01/20',
-    location: 'F103-Bed',
-    service: 'Call me',
-    status: 'NEW',
-    department: 'Patient Experience',
-    requestedBy: 'Hossan Ali',
-    assignedTo: 'Mohamed',
-    priority: 'HIGH',
-  },
-  // Add more request objects here
-];
+interface RequestTableProps {
+  requestData: {
+    id: number;
+    requestId: string;
+    createdOn: string;
+    location: string;
+    service: string;
+    status: string;
+    department: string;
+    requestedBy: string;
+    assignedTo: string;
+    priority: string;
+  }[];
+}
 
 const getStatusChip = (status: string) => {
   switch (status) {
@@ -52,7 +50,7 @@ const getPriorityChip = (priority: string) => {
   }
 };
 
-const RequestTable: React.FC = () => {
+const RequestTable: React.FC<RequestTableProps> = ({ requestData }) => {
   return (
     <TableContainer component={Paper}>
       <Table>

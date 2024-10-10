@@ -1,29 +1,56 @@
-// backend/server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
-// Load environment variables
-dotenv.config();
-
-// Initialize the app
 const app = express();
-
-// Middleware
 app.use(cors());
-app.use(express.json()); // Parses incoming requests with JSON payloads
+app.use(express.json());
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => console.log('MongoDB connected'))
+  .catch((error) => console.log('MongoDB connection error:', error));
 
-// Routes
-app.use('/api/requests', require('./routes/requestRoutes'));
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+const requestSchema = new mongoose.Schema({
+  requestId: String,
+  createdOn: Date,
+  location: String,
+  service: String,
+  status: { type: String, enum: ['NEW', 'IN_PROGRESS', 'COMPLETED', 'ESCALATED', 'ON_HOLD'], default: 'NEW' },
+  priority: { type: String, enum: ['HIGH', 'MEDIUM', 'LOW'], default: 'LOW' },
+  department: String,
+  requestedBy: String,
+  assignedTo: String,
 });
+
+const Request = mongoose.model('Request', requestSchema);
+
+app.get('/api/requests', async (req, res) => {
+  try {
+    const requests = await Request.find();
+    res.json(requests);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching requests' });
+  }
+});
+
+
+app.post('/api/requests', async (req, res) => {
+  console.log('Request received with data:', req.body);
+  try {
+    const newRequest = new Request(req.body);
+    const savedRequest = await newRequest.save();
+    res.json(savedRequest);
+  } catch (error) {
+    console.error('Error saving request:', error);
+    res.status(500).json({ error: 'Error creating request' });
+  }
+});
+
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
