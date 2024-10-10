@@ -34,26 +34,29 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
+app.patch('/api/requests/:id', async (req, res) => {
   try {
-    const updatedRequest = await Request.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updatedRequest);
+    const request = await Request.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!request) {
+      return res.status(404).send({ error: 'Request not found' });
+    }
+    res.status(200).send(request);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).send({ error: 'Server error' });
   }
 });
 
-router.delete('/:id', async (req, res) => {
+app.delete('/api/requests/:id', async (req, res) => {
   try {
-    const request = await Request.findById(req.params.id);
+    const request = await Request.findByIdAndDelete(req.params.id);
     if (!request) {
-      return res.status(404).json({ message: 'Request not found' });
+      return res.status(404).send({ error: 'Request not found' });
     }
-    await request.remove();
-    res.json({ message: 'Request removed' });
+    res.status(200).send(request);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).send({ error: 'Server error' });
   }
 });
+
 
 module.exports = router;

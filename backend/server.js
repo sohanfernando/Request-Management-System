@@ -51,6 +51,31 @@ app.post('/api/requests', async (req, res) => {
   }
 });
 
+app.delete('/api/requests/:id', async (req, res) => {
+  try {
+    const request = await Request.findByIdAndDelete(req.params.id);
+    if (!request) {
+      return res.status(404).send({ error: 'Request not found' });
+    }
+    res.status(200).send(request);
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
+  }
+});
+
+app.patch('/api/requests/:id', async (req, res) => {
+  try {
+    const request = await Request.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!request) {
+      return res.status(404).send({ error: 'Request not found' });
+    }
+    res.status(200).send(request);
+  } catch (error) {
+    res.status(500).send({ error: 'Server error' });
+  }
+});
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

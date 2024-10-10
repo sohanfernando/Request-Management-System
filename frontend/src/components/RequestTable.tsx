@@ -1,19 +1,12 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip, Button, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface RequestTableProps {
-  requestData: {
-    id: number;
-    requestId: string;
-    createdOn: string;
-    location: string;
-    service: string;
-    status: string;
-    department: string;
-    requestedBy: string;
-    assignedTo: string;
-    priority: string;
-  }[];
+  requestData: any[];
+  onDelete: (id: string) => void;
+  onEdit: (request: any) => void;
 }
 
 const getStatusChip = (status: string) => {
@@ -50,7 +43,7 @@ const getPriorityChip = (priority: string) => {
   }
 };
 
-const RequestTable: React.FC<RequestTableProps> = ({ requestData }) => {
+const RequestTable: React.FC<RequestTableProps> = ({ requestData, onDelete, onEdit }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -66,11 +59,12 @@ const RequestTable: React.FC<RequestTableProps> = ({ requestData }) => {
             <TableCell>Requested By</TableCell>
             <TableCell>Assigned To</TableCell>
             <TableCell>Priority</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {requestData.map((request, index) => (
-            <TableRow key={request.id}>
+            <TableRow key={request._id}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{request.requestId}</TableCell>
               <TableCell>{request.createdOn}</TableCell>
@@ -81,6 +75,14 @@ const RequestTable: React.FC<RequestTableProps> = ({ requestData }) => {
               <TableCell>{request.requestedBy}</TableCell>
               <TableCell>{request.assignedTo}</TableCell>
               <TableCell>{getPriorityChip(request.priority)}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => onEdit(request)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => onDelete(request._id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

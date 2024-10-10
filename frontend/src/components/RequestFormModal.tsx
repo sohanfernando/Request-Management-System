@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Grid, MenuItem, TextField, Typography, Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/system';
@@ -7,6 +7,7 @@ interface RequestFormModalProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (formData: any) => void;
+  editingRequest?: any;
 }
 
 const UploadBox = styled('div')({
@@ -18,7 +19,7 @@ const UploadBox = styled('div')({
   cursor: 'pointer',
 });
 
-const RequestFormModal: React.FC<RequestFormModalProps> = ({ open, onClose, onSubmit }) => {
+const RequestFormModal: React.FC<RequestFormModalProps> = ({ open, onClose, onSubmit, editingRequest }) => {
   const [formData, setFormData] = useState({
     requestId: '',
     createdOn: '',
@@ -30,6 +31,24 @@ const RequestFormModal: React.FC<RequestFormModalProps> = ({ open, onClose, onSu
     assignedTo: '',
     priority: 'LOW',
   });
+
+  useEffect(() => {
+    if (editingRequest) {
+      setFormData(editingRequest);
+    } else {
+      setFormData({
+        requestId: '',
+        createdOn: '',
+        location: '',
+        service: '',
+        status: 'NEW',
+        department: '',
+        requestedBy: '',
+        assignedTo: '',
+        priority: 'LOW',
+      });
+    }
+  }, [editingRequest]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -46,7 +65,7 @@ const RequestFormModal: React.FC<RequestFormModalProps> = ({ open, onClose, onSu
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>
         <Typography variant="h5" style={{ fontWeight: '600', color: '#101B33', fontFamily: 'Ciutadella' }}>
-          Create New Request
+          {editingRequest ? 'Edit Request' : 'Create New Request'}
         </Typography>
         <IconButton aria-label="close" onClick={onClose} style={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
@@ -192,7 +211,7 @@ const RequestFormModal: React.FC<RequestFormModalProps> = ({ open, onClose, onSu
           </Grid>
           <Grid item>
             <Button variant="contained" onClick={handleSubmit} style={{ backgroundColor: '#830823', color: 'white' }}>
-              Submit
+              {editingRequest ? 'Update' : 'Submit'}
             </Button>
           </Grid>
         </Grid>
