@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Avatar, Menu, MenuItem, Grid, Badge } from '@mui/material';
 import { ExpandMore } from '@mui/icons-material';
-
-// Import icons
 import DashboardIcon from '../static/icons/dashboard.png';
 import RequestsIcon from '../static/icons/requests.png';
 import FeedbacksIcon from '../static/icons/feedbacks.png';
