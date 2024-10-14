@@ -11,9 +11,9 @@ interface RequestFormModalProps {
 }
 
 const UploadBox = styled('div')({
-  border: '2px dashed #E0E0E0',
-  borderRadius: '8px',
-  padding: '16px',
+  border: '3px dashed #E0E0E0',
+  borderRadius: '10px',
+  padding: '60px',
   textAlign: 'center',
   color: '#A61E44',
   cursor: 'pointer',
@@ -89,7 +89,7 @@ const RequestFormModal: React.FC<RequestFormModalProps> = ({ open, onClose, onSu
             <TextField
               fullWidth
               name="createdOn"
-              label="Created On"
+              label="Created On"  // (month/date/year)
               variant="outlined"
               value={formData.createdOn}
               onChange={handleInputChange}
