@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
     <AppBar position="static" style={{ backgroundColor: '#830823', height: '64px' }}>
       <Toolbar style={{ padding: '0 16px', minHeight: '64px' }}>
         
-        <Typography variant="h6" style={{ fontWeight: 'bold', flexGrow: 1 }}>
+        <Typography variant="h6" style={{ fontWeight: 'bold', whiteSpace: 'nowrap'}}>
           e-hospital
         </Typography>
 
