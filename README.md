@@ -32,7 +32,7 @@ To run this project, you need to have the following installed:
 - npm or yarn
 - MongoDB (Local or MongoDB Atlas instance)
 
-### 1. Clone the Repository
+### Clone the Repository
 ```bash
 git clone https://github.com/your-username/Request-Management-System.git
 cd Request-Management-System
