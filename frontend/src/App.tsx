@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import Navbar from './components/Navbar';
 import StatusCircles from './components/StatusCircles';
 import RequestTable from './components/RequestTable';
@@ -11,6 +11,10 @@ const App: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [requestData, setRequestData] = useState<any[]>([]);
   const [editingRequest, setEditingRequest] = useState<any | null>(null);
+  // Filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [status, setStatus] = useState('');
+  const [department, setDepartment] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/requests')
@@ -19,6 +23,19 @@ const App: React.FC = () => {
       })
       .catch((error) => console.error("Error fetching requests:", error));
   }, []);
+
+  // Filtering logic
+  const filteredRequests = requestData.filter((request) => {
+    const matchesSearch =
+      searchQuery === '' ||
+      (request.requestId && request.requestId.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (request.location && request.location.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (request.service && request.service.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (request.department && request.department.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesStatus = status === '' || request.status === status || request.status === status.toUpperCase();
+    const matchesDepartment = department === '' || request.department === department;
+    return matchesSearch && matchesStatus && matchesDepartment;
+  });
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
@@ -58,13 +75,26 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
       <Navbar />
-      <Container>
+      <Container 
+        maxWidth="xl" 
+        sx={{ 
+          py: { xs: 2, sm: 3, md: 4 },
+          px: { xs: 1, sm: 2, md: 3 }
+        }}
+      >
         <StatusCircles handleOpenModal={handleOpenModal} requestData={requestData} />
-        <FilterBar />
+        <FilterBar 
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          status={status}
+          setStatus={setStatus}
+          department={department}
+          setDepartment={setDepartment}
+        />
         <RequestTable 
-          requestData={requestData} 
+          requestData={filteredRequests} 
           onDelete={handleDelete} 
           onEdit={handleEdit} 
         />
@@ -75,7 +105,7 @@ const App: React.FC = () => {
           editingRequest={editingRequest}
         />
       </Container>
-    </div>
+    </Box>
   );
 };
 
